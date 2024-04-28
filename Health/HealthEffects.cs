@@ -7,10 +7,10 @@ using static Systems.Effects.Effects;
 using UnityEngine;
 using System.Linq;
 using BepInEx.Logging;
-using EffectClass = EFT.HealthSystem.ActiveHealthController.GClass2415;
-using ExistanceClass = GClass2456;
+using EffectClass = EFT.HealthSystem.ActiveHealthController.AbstractEffect;
+using ExistanceClass = GClass2431;
 using InterfaceOne = GInterface237;
-using InterfaceTwo = GInterface252;
+using InterfaceTwo = IEffect14;
 using EFT.InventoryLogic;
 
 namespace RealismMod

@@ -23,14 +23,14 @@ using static CW2.Animations.PhysicsSimulator.Val;
 using static EFT.Player;
 using static RealismMod.Attributes;
 using static Systems.Effects.Effects;
-using EffectClass = EFT.HealthSystem.ActiveHealthController.GClass2415;
-using ExistanceClass = GClass2456;
-using StamController = GClass682;
-using PhysicalClass = GClass681;
-using HealthStateClass = GClass2416<EFT.HealthSystem.ActiveHealthController.GClass2415>;
-using MedkitTemplate = IMedkitResource;
+using EffectClass = EFT.HealthSystem.ActiveHealthController.AbstractEffect;
+using ExistanceClass = GClass2431;
+using StamController = GPhysical;
+using PhysicalClass = Physical;
+using HealthStateClass = AHealthController<EFT.HealthSystem.ActiveHealthController.AbstractEffect>;
+using MedkitTemplate = GInterface298;
 using static EFT.HealthSystem.ActiveHealthController;
-using static GClass2417;
+using static AbstractHealth;
 using Aki.Common.Http;
 
 namespace RealismMod
@@ -40,7 +40,7 @@ namespace RealismMod
     {
         protected override MethodBase GetTargetMethod()
         {
-            return typeof(HealthEffectsComponent).GetConstructor(new Type[] { typeof(Item), typeof(IHealthEffect) });
+            return typeof(HealthEffectsComponent).GetConstructor(new Type[] { typeof(Item), typeof(GInterface292) });
         }
 
         [PatchPostfix]
@@ -203,7 +203,7 @@ namespace RealismMod
         protected override MethodBase GetTargetMethod()
         {
             Type nestedType = typeof(EFT.HealthSystem.ActiveHealthController).GetNestedType("Stimulator", BindingFlags.NonPublic | BindingFlags.Instance); //get the nested type used by the generic type, Class1885
-            Type genericType = typeof(Class1884<>); //declare generic type
+            Type genericType = typeof(Class1889<>); //declare generic type
             Type constructedType = genericType.MakeGenericType(new Type[] { nestedType }); //construct type at runtime using nested type
             return constructedType.GetMethod("method_0", BindingFlags.Instance | BindingFlags.Public);
         }
@@ -222,7 +222,7 @@ namespace RealismMod
         protected override MethodBase GetTargetMethod()
         {
             Type nestedType = typeof(EFT.HealthSystem.ActiveHealthController).GetNestedType("Stimulator", BindingFlags.NonPublic | BindingFlags.Instance); //get the nested type used by the generic type, Class1885
-            Type genericType = typeof(Class1885<>); //declare generic type
+            Type genericType = typeof(Class1890<>); //declare generic type
             Type constructedType = genericType.MakeGenericType(new Type[] { nestedType }); //construct type at runtime using nested type
             return constructedType.GetMethod("method_0", BindingFlags.Instance | BindingFlags.Public);
         }
@@ -386,7 +386,7 @@ namespace RealismMod
         [PatchPrefix]
         private static bool Prefix(EFT.Player __instance, EBoundItem quickSlot)
         {
-            Item boundItem = __instance.GClass2761_0.Inventory.FastAccess.GetBoundItem(quickSlot);
+            Item boundItem = __instance.GClass2772_0.Inventory.FastAccess.GetBoundItem(quickSlot);
             FoodClass food = boundItem as FoodClass;
             if (boundItem != null && (food = (boundItem as FoodClass)) != null)
             {
@@ -635,7 +635,7 @@ namespace RealismMod
 
         protected override MethodBase GetTargetMethod()
         {
-            return typeof(EFT.Player).GetMethod("Proceed", BindingFlags.Instance | BindingFlags.Public, null, new Type[] { typeof(MedsClass), typeof(EBodyPart), typeof(Callback<GInterface130>), typeof(int), typeof(bool) }, null);
+            return typeof(EFT.Player).GetMethod("Proceed", BindingFlags.Instance | BindingFlags.Public, null, new Type[] { typeof(MedsClass), typeof(EBodyPart), typeof(Callback<IMedsController>), typeof(int), typeof(bool) }, null);
         }
 
         [PatchPrefix]

@@ -13,10 +13,10 @@ using Aki.Reflection.Utils;
 using UnityEngine.Rendering.PostProcessing;
 using static EFT.Interactive.BetterPropagationGroups;
 using BepInEx.Logging;
-using HeadsetClass = GClass2639;
-using HeadsetTemplate = GClass2542;
-using IWeapon = GInterface322;
-using CompressorTemplateClass = GClass2901;
+using HeadsetClass = GClass2650;
+using HeadsetTemplate = LowMute;
+using static IWeapon;
+using CompressorTemplateClass = HeadphonesUpdateEvent;
 using System.Collections;
 using EFT.NextObservedPlayer;
 using System.Collections.Generic;
@@ -224,7 +224,7 @@ namespace RealismMod
             float gunT;
             float mainT;
 
-            GlobalEventHandlerClass.CreateEvent<CompressorTemplateClass>().Invoke(template);
+            GClass2942.CreateEvent<CompressorTemplateClass>().Invoke(template);
             DeafeningController.DryVolume = hasHeadset ? template.DryVolume * Plugin.DryVolumeMulti.Value : 0f;
             DeafeningController.CompressorVolume = hasHeadset ? template.CompressorVolume : -80f;
             DeafeningController.AmbientVolume = hasHeadset ? template.AmbientVolume : 0f;
@@ -309,7 +309,7 @@ namespace RealismMod
         }
 
         [PatchPostfix]
-        private static void PatchPostfix(Player.FirearmController __instance, EftBulletClass shot)
+        private static void PatchPostfix(Player.FirearmController __instance, Shot shot)
         {
             Player player = (Player)playerField.GetValue(__instance);
 

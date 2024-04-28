@@ -9,19 +9,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
-using EffectClass = EFT.HealthSystem.ActiveHealthController.GClass2415;
-using DamageTypeClass = GClass2456;
+using EffectClass = EFT.HealthSystem.ActiveHealthController.AbstractEffect;
+using DamageTypeClass = GClass2431;
 
-using PainKillerInterface = GInterface260;
-using TremorInterface = GInterface263;
-using BrokenBoneInterface = GInterface245;
-using TunnelVisionInterface = GInterface265;
-using ContusionInterface = GInterface255;
-using HeavyBleedingInterface = GInterface243;
-using LightBleedingInterface = GInterface242;
-using DehydrationInterface = GInterface246;
-using ExhaustionInterface = GInterface247;
-using PainInterface = GInterface259;
+using PainKillerInterface = IEffect22;
+using TremorInterface = IEffect25;
+using BrokenBoneInterface = IEffect7;
+using TunnelVisionInterface = IEffect27;
+using ContusionInterface = IEffect17;
+using HeavyBleedingInterface = IEffect5;
+using LightBleedingInterface = IEffect4;
+using DehydrationInterface = IEffect8;
+using ExhaustionInterface = IEffect9;
+using PainInterface = IEffect21;
 
 namespace RealismMod
 {
@@ -573,7 +573,7 @@ namespace RealismMod
         private void AddStimDebuffs(Player player, string debuffId)
         {
             MedsClass placeHolderItem = (MedsClass)Singleton<ItemFactory>.Instance.CreateItem(Utils.GenId(), debuffId, null);
-            placeHolderItem.CurrentAddress = player.GClass2761_0.FindQuestGridToPickUp(placeHolderItem); //item needs an address to be valid, this is a hacky workaround
+            placeHolderItem.CurrentAddress = player.GClass2772_0.FindQuestGridToPickUp(placeHolderItem); //item needs an address to be valid, this is a hacky workaround
             player.ActiveHealthController.DoMedEffect(placeHolderItem, EBodyPart.Head, null);
 
             if (Plugin.EnableLogging.Value)

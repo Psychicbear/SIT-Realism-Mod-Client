@@ -21,8 +21,8 @@ using EFT.Interactive;
 using Diz.Skinning;
 using EFT.Visual;
 using Diz.LanguageExtensions;
-using EFTSlot = GClass2767;
-using ArmorSlot = GClass2511;
+using EFTSlot = SlotItemAddress;
+using static ArmorSlot;
 using EFT.UI;
 
 namespace RealismMod
@@ -247,11 +247,11 @@ namespace RealismMod
     {
         protected override MethodBase GetTargetMethod()
         {
-            return typeof(DamageInfo).GetConstructor(new Type[] { typeof(EDamageType), typeof(EftBulletClass) });
+            return typeof(DamageInfo).GetConstructor(new Type[] { typeof(EDamageType), typeof(Shot) });
         }
 
         [PatchPrefix]
-        private static bool Prefix(ref DamageInfo __instance, EDamageType damageType, EftBulletClass shot)
+        private static bool Prefix(ref DamageInfo __instance, EDamageType damageType, Shot shot)
         {
             __instance.DamageType = damageType;
             __instance.Damage = shot.Damage;
@@ -277,7 +277,6 @@ namespace RealismMod
             __instance.MasterOrigin = shot.MasterOrigin;
             __instance.IsForwardHit = shot.IsForwardHit;
             __instance.SourceId = shot.Ammo.TemplateId;
-
             BulletClass bulletClass;
             if ((bulletClass = (shot.Ammo as BulletClass)) != null)
             {
@@ -290,8 +289,8 @@ namespace RealismMod
                 __instance.LightBleedingDelta = 0f;
                 __instance.HeavyBleedingDelta = 0f;
                 __instance.StaminaBurnRate = 0f;
-                KnifeClass knifeClass;
-                if ((knifeClass = (__instance.Weapon as KnifeClass)) != null)
+                FoodClass1 knifeClass;
+                if ((knifeClass = (__instance.Weapon as FoodClass1)) != null)
                 {
                     __instance.StaminaBurnRate = knifeClass.KnifeComponent.Template.StaminaBurnRate;
                 }
@@ -386,7 +385,7 @@ namespace RealismMod
 
         private static void playBodyHitSound(EBodyPart part, Vector3 pos, int rndNum)
         {
-            float dist = CameraClass.Instance.Distance(pos);
+            float dist = FPSCamera.Instance.Distance(pos);
             float volClose = 0.4f * Plugin.FleshHitSoundMulti.Value;
             float volDist = 2f * Plugin.FleshHitSoundMulti.Value;
             float distThreshold = 30f;
@@ -448,6 +447,7 @@ namespace RealismMod
                 Logger.LogWarning("==========Apply Damage Info=============== ");
                 Logger.LogWarning("Damage " + damageInfo.Damage);
                 Logger.LogWarning("Pen " + damageInfo.PenetrationPower);
+                Logger.LogWarning("Source " + damageInfo.SourceId);
                 Logger.LogWarning("========================= ");
             }
 
@@ -463,7 +463,6 @@ namespace RealismMod
                 {
                     partHit = damageInfo.BodyPartColliderType;
                 }
-
                 BallisticsController.ModifyDamageByHitZone(partHit, ref damageInfo);
 
                 bool hasArmArmor = false;
@@ -608,11 +607,11 @@ namespace RealismMod
         protected override MethodBase GetTargetMethod()
         {
             armorCompsField = AccessTools.Field(typeof(Player), "_preAllocatedArmorComponents");
-            return typeof(EftBulletClass).GetMethod("smethod_2", BindingFlags.Static | BindingFlags.Public);
+            return typeof(Shot).GetMethod("smethod_2", BindingFlags.Static | BindingFlags.Public);
         }
 
         [PatchPrefix]
-        private static bool Prefix(BallisticCollider parentBallisticCollider, bool isForwardHit, EftBulletClass shot)
+        private static bool Prefix(BallisticCollider parentBallisticCollider, bool isForwardHit, Shot shot)
         {
 
             if (!isForwardHit)
@@ -685,7 +684,7 @@ namespace RealismMod
         }
 
         [PatchPrefix]
-        private static bool Prefix(EftBulletClass shot, ArmorComponent __instance)
+        private static bool Prefix(Shot shot, ArmorComponent __instance)
         {
             bool isSteelBodyArmor = __instance.Template.ArmorMaterial == EArmorMaterial.ArmoredSteel && !__instance.Template.ArmorColliders.Any(x => BallisticsController.HeadCollidors.Contains(x));
             if (__instance.Repairable.Durability <= 0f && !isSteelBodyArmor)
@@ -736,7 +735,7 @@ namespace RealismMod
     {
         private static void playRicochetSound(Vector3 pos, int rndNum)
         {
-            float dist = CameraClass.Instance.Distance(pos);
+            float dist = FPSCamera.Instance.Distance(pos);
             string audioClip = rndNum == 0 ? "ric_1.wav" : rndNum == 1 ? "ric_2.wav" : "ric_3.wav";
 
             Singleton<BetterAudio>.Instance.PlayAtPoint(pos, Plugin.LoadedAudioClips[audioClip], dist, BetterAudio.AudioSourceGroupType.Impacts, 40, 4.25f, EOcclusionTest.Regular);
@@ -744,7 +743,7 @@ namespace RealismMod
 
         private static void playArmorHitSound(EArmorMaterial mat, Vector3 pos, bool isHelm, int rndNum)
         {
-            float dist = CameraClass.Instance.Distance(pos);
+            float dist = FPSCamera.Instance.Distance(pos);
             float volClose = 0.15f * Plugin.ArmorCloseHitSoundMulti.Value;
             float volDist = 2f * Plugin.ArmorFarHitSoundMulti.Value;
             float distThreshold = 30f;
@@ -1042,7 +1041,7 @@ namespace RealismMod
         }
 
         [PatchPrefix]
-        private static bool Prefix(EFT.Ballistics.BallisticsCalculator __instance, BulletClass ammo, Vector3 origin, Vector3 direction, int fireIndex, string player, Item weapon, ref EftBulletClass __result, float speedFactor, int fragmentIndex = 0)
+        private static bool Prefix(EFT.Ballistics.BallisticsCalculator __instance, BulletClass ammo, Vector3 origin, Vector3 direction, int fireIndex, string player, Item weapon, ref Shot __result, float speedFactor, int fragmentIndex = 0)
         {
             int randomNum = UnityEngine.Random.Range(0, 512);
             float velocityFactored = ammo.InitialSpeed * speedFactor;
@@ -1061,7 +1060,7 @@ namespace RealismMod
                 Logger.LogWarning("BC Factor " + bcSpeedFactor);
             }
 
-            __result = EftBulletClass.Create(ammo, fragmentIndex, randomNum, origin, direction, velocityFactored, velocityFactored, ammo.BulletMassGram, ammo.BulletDiameterMilimeters, (float)damageFactored, penPowerFactored, penChanceFactored, ammo.RicochetChance, fragchanceFactored, 1f, ammo.MinFragmentsCount, ammo.MaxFragmentsCount, EFT.Ballistics.BallisticsCalculator.DefaultHitBody, __instance.Randoms, bcFactored, player, weapon, fireIndex, null);
+            __result = Shot.Create(ammo, fragmentIndex, randomNum, origin, direction, velocityFactored, velocityFactored, ammo.BulletMassGram, ammo.BulletDiameterMilimeters, (float)damageFactored, penPowerFactored, penChanceFactored, ammo.RicochetChance, fragchanceFactored, 1f, ammo.MinFragmentsCount, ammo.MaxFragmentsCount, EFT.Ballistics.BallisticsCalculator.DefaultHitBody, __instance.Randoms, bcFactored, player, weapon, fireIndex, null);
             return false;
 
         }

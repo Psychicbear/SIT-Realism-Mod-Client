@@ -14,10 +14,10 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Collections.Concurrent;
 using System.Diagnostics;
-using StatAttributeClass = GClass2752;
-using BarrelTemplateClass = GClass2579;
-using ArmorPlateUIClass = GClass2633;
-using FormatArmorClass = GClass2520;
+using StatAttributeClass = MaxDurabilityAttribute;
+using BarrelTemplateClass = GGModTemplate3;
+using ArmorPlateUIClass = ArmorPlate;
+using FormatArmorClass = GClass2531;
 namespace RealismMod
 {
 

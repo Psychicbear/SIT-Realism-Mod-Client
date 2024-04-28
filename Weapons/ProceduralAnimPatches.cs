@@ -17,10 +17,10 @@ using System.Linq;
 using static EFT.Player;
 using System.ComponentModel;
 using static EFT.ClientPlayer;
-using WeaponSkillsClass = EFT.SkillManager.GClass1771;
+using WeaponSkillsClass = EFT.SkillManager.BuffInfo;
 using EFT.Animations.NewRecoil;
-using StaminaLevelClass = GClass753<float>;
-using ProcessorClass = GClass2213;
+using StaminaLevelClass = GClass759<float>;
+using ProcessorClass = GClass2188;
 
 namespace RealismMod
 {
