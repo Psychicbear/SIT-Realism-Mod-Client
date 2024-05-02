@@ -13,9 +13,9 @@ using System.Linq;
 using EFT.Ballistics;
 using System.ComponentModel;
 using Random = System.Random;
-using CastingClass = GClass649;
-using HackShotResult = GClass1676;
-using CollisionLayerClass = GClass2987;
+using CastingClass = GClass654;
+using HackShotResult = ApplyShot;
+using CollisionLayerClass = GClass2998;
 using EFT.Animations;
 using ChartAndGraph;
 /*using LightStruct = GStruct155;*/
@@ -123,10 +123,10 @@ namespace RealismMod
         {
             __instance.ResetLeftHand();
             skipAnimation = StanceController.CurrentStance == EStance.HighReady && PlayerState.IsSprinting ? true : skipAnimation;
-            WeaponAnimationSpeedControllerClass.SetFireMode(__instance.Animator, (float)fireMode);
+            GClass669.SetFireMode(__instance.Animator, (float)fireMode);
             if (!skipAnimation)
             {
-                WeaponAnimationSpeedControllerClass.TriggerFiremodeSwitch(__instance.Animator);
+                GClass669.TriggerFiremodeSwitch(__instance.Animator);
             }
             return false;
         }

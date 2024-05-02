@@ -10,10 +10,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
-using MalfGlobals = BackendConfigSettingsClass.GClass1370;
-using OverheatGlobals = BackendConfigSettingsClass.GClass1371;
-using KnowMalfClass = EFT.InventoryLogic.Weapon.GClass2742;
-using DamageTypeClass = GClass2456;
+using MalfGlobals = BackendConfigSettingsClass.MalfSettings;
+using OverheatGlobals = BackendConfigSettingsClass.OverheatSettings;
+using KnowMalfClass = EFT.InventoryLogic.Weapon.WeaponMalfState;
+using DamageTypeClass = GClass2431;
 using Systems.Effects;
 
 namespace RealismMod

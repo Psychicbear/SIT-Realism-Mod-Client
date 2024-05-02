@@ -9,20 +9,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
-using EffectClass = EFT.HealthSystem.ActiveHealthController.GClass2415;
-using DamageTypeClass = GClass2456;
+using EffectClass = EFT.HealthSystem.ActiveHealthController.AbstractEffect;
+using DamageTypeClass = GClass2431;
 
-using PainKillerInterface = GInterface260;
-using TremorInterface = GInterface263;
-using BrokenBoneInterface = GInterface245;
-using TunnelVisionInterface = GInterface265;
-using ContusionInterface = GInterface255;
-using HeavyBleedingInterface = GInterface243;
-using LightBleedingInterface = GInterface242;
-using DehydrationInterface = GInterface246;
-using ExhaustionInterface = GInterface247;
-using PainInterface = GInterface259;
-using static GClass2463;
+using PainKillerInterface = IEffect22;
+using TremorInterface = IEffect25;
+using BrokenBoneInterface = IEffect7;
+using TunnelVisionInterface = IEffect27;
+using ContusionInterface = IEffect17;
+using HeavyBleedingInterface = IEffect5;
+using LightBleedingInterface = IEffect4;
+using DehydrationInterface = IEffect8;
+using ExhaustionInterface = IEffect9;
+using PainInterface = IEffect21;
+using static GClass2438;
 using Newtonsoft.Json.Linq;
 
 namespace RealismMod
@@ -338,7 +338,7 @@ namespace RealismMod
 
         public void AddCustomEffectsToDict() 
         {
-            Type type1 = typeof(GClass2463.GClass2464);
+            Type type1 = typeof(GClass2438.GClass2439);
             FieldInfo fieldInfo1 = type1.GetField("dictionary_1", BindingFlags.NonPublic | BindingFlags.Static);
             var effectDict1 = (Dictionary<byte, string>)fieldInfo1.GetValue(null);
 
@@ -348,7 +348,7 @@ namespace RealismMod
 
             fieldInfo1.SetValue(null, effectDict1);
 
-            Type type0 = typeof(GClass2463.GClass2464);
+            Type type0 = typeof(GClass2438.GClass2439);
             FieldInfo fieldInfo0 = type0.GetField("dictionary_0", BindingFlags.NonPublic | BindingFlags.Static);
             var effectDict0 = (Dictionary<string, byte>)fieldInfo0.GetValue(null);
 
@@ -358,7 +358,7 @@ namespace RealismMod
 
             fieldInfo0.SetValue(null, effectDict0);
 
-            Type typeType = typeof(GClass2463.GClass2464);
+            Type typeType = typeof(GClass2438.GClass2439);
             FieldInfo typeFieldInfo = typeType.GetField("type_0", BindingFlags.NonPublic | BindingFlags.Static);
             var typeArr = (Type[])typeFieldInfo.GetValue(null);
 
@@ -617,7 +617,7 @@ namespace RealismMod
         private void AddStimDebuffs(Player player, string debuffId)
         {
             MedsClass placeHolderItem = (MedsClass)Singleton<ItemFactory>.Instance.CreateItem(Utils.GenId(), debuffId, null);
-            placeHolderItem.CurrentAddress = player.GClass2761_0.FindQuestGridToPickUp(placeHolderItem); //item needs an address to be valid, this is a hacky workaround
+            placeHolderItem.CurrentAddress = player.GClass2772_0.FindQuestGridToPickUp(placeHolderItem); //item needs an address to be valid, this is a hacky workaround
             player.ActiveHealthController.DoMedEffect(placeHolderItem, EBodyPart.Head, null);
 
             if (Plugin.EnableLogging.Value)

@@ -15,16 +15,16 @@ using System.Xml.Linq;
 using UnityEngine;
 using static CW2.Animations.PhysicsSimulator.Val;
 using static EFT.Player;
-using MagReloadClass = EFT.Player.FirearmController.GClass1610;
-using RechamberClass = EFT.Player.FirearmController.GClass1622;
-using StatusStruct = GStruct414<GInterface324>;
-using ItemEventClass = GClass2767;
-using WeaponStateClass = GClass1668;
-using ChamberWeaponClass = EFT.Player.FirearmController.GClass1626;
-using ReloadWeaponClass = EFT.Player.FirearmController.GClass1587;
-using WeaponEventClass = EFT.Player.FirearmController.GClass1577;
-using WeaponEventHandlerClass = EFT.Player.FirearmController.GClass1576;
-using WeaponStatSubclass = EFT.Player.FirearmController.GClass1584;
+using MagReloadClass = EFT.Player.FirearmController.GClass1620;
+using RechamberClass = EFT.Player.FirearmController.GClass1632;
+using StatusStruct = SOperationResult12<IPopNewAmmoResult>;
+using ItemEventClass = SlotItemAddress;
+using WeaponStateClass = WeaponEffectsManager;
+using ChamberWeaponClass = EFT.Player.FirearmController.GClass1636;
+using ReloadWeaponClass = EFT.Player.FirearmController.GClass1607;
+using WeaponEventClass = EFT.Player.FirearmController.ReloadExternalMagResult;
+using WeaponEventHandlerClass = EFT.Player.FirearmController.InsertMagResult;
+using WeaponStatSubclass = EFT.Player.FirearmController.AbstractFirearmActioner;
 using RealismMod.Weapons;
 
 namespace RealismMod
@@ -64,10 +64,10 @@ namespace RealismMod
             {
                 if (fc.Weapon.HasChambers && fc.Weapon.Chambers.Length == 1) 
                 {
-                    var magazine = (MagazineClass)AccessTools.Field(typeof(ChamberWeaponClass), "gclass2669_0").GetValue(__instance);
+                    var magazine = (MagazineClass)AccessTools.Field(typeof(ChamberWeaponClass), "gclass2680_0").GetValue(__instance);
                     var ammoIsCompatible = (bool)AccessTools.Field(typeof(ChamberWeaponClass), "bool_1").GetValue(__instance);
-                    var bullet = (BulletClass)AccessTools.Field(typeof(ChamberWeaponClass), "gclass2736_0").GetValue(__instance);
-                    var chamberState = (WeaponStateClass)AccessTools.Field(typeof(ChamberWeaponClass), "gclass1668_0").GetValue(__instance);
+                    var bullet = (BulletClass)AccessTools.Field(typeof(ChamberWeaponClass), "gclass2747_0").GetValue(__instance);
+                    var chamberState = (WeaponStateClass)AccessTools.Field(typeof(ChamberWeaponClass), "gclass1678_0").GetValue(__instance);
 
                     AccessTools.Field(typeof(ChamberWeaponClass), "action_0").SetValue(__instance, onWeaponAppear);
                     __instance.Start();
@@ -79,7 +79,7 @@ namespace RealismMod
                     int currentMagazineCount = fc.Weapon.GetCurrentMagazineCount();
 
                     magazine = fc.Weapon.GetCurrentMagazine();
-                    AccessTools.Field(typeof(ChamberWeaponClass), "gclass2669_0").SetValue(__instance, magazine);
+                    AccessTools.Field(typeof(ChamberWeaponClass), "gclass2680_0").SetValue(__instance, magazine);
                    
                     fc.AmmoInChamberOnSpawn = chamberAmmoCount;
 
@@ -113,7 +113,7 @@ namespace RealismMod
                         {
                             fc.Weapon.MalfState.ChangeStateSilent(Weapon.EMalfunctionState.None);
                         }
-                        StatusStruct gstruct = magazine.Cartridges.PopTo(player.GClass2761_0, new ItemEventClass(fc.Item.Chambers[0]));
+                        StatusStruct gstruct = magazine.Cartridges.PopTo(player.GClass2772_0, new ItemEventClass(fc.Item.Chambers[0]));
                         fc.Item.MalfState.ChangeStateSilent(malfState);
                         if (gstruct.Value == null)
                         {
@@ -122,7 +122,7 @@ namespace RealismMod
                         chamberState.RemoveAllShells();
                         player.UpdatePhones();
                         bullet = (BulletClass)gstruct.Value.ResultItem;
-                        AccessTools.Field(typeof(ChamberWeaponClass), "gclass2736_0").SetValue(__instance, bullet);
+                        AccessTools.Field(typeof(ChamberWeaponClass), "gclass2747_0").SetValue(__instance, bullet);
                     }
                     return false;
                 }
@@ -138,12 +138,12 @@ namespace RealismMod
         {
             return typeof(ReloadWeaponClass).GetMethods(BindingFlags.Public | BindingFlags.Instance).First(m =>
             m.GetParameters().Length == 2
-            && m.GetParameters()[0].Name == "reloadExternalMagResult"
+            && m.GetParameters()[0].Name == "item"
             && m.GetParameters()[1].Name == "callback");
         }
 
         [PatchPrefix]
-        private static void Prefix(ReloadWeaponClass __instance, WeaponEventClass reloadExternalMagResult)
+        private static void Prefix(ReloadWeaponClass __instance, WeaponEventClass item)
         {
             var fc = (FirearmController)AccessTools.Field(typeof(ReloadWeaponClass), "firearmController_0").GetValue(__instance);
             var player = (Player)AccessTools.Field(typeof(FirearmController), "_player").GetValue(fc);
@@ -307,7 +307,7 @@ namespace RealismMod
             if (WeaponStats._WeapClass == "shotgun")
             {
                 weaponLevel = Mathf.Clamp(weaponLevel + 2, 1, 3);
-                WeaponAnimationSpeedControllerClass.SetWeaponLevel(__instance.Animator, weaponLevel);
+                GClass669.SetWeaponLevel(__instance.Animator, weaponLevel);
             }
         }
     }
@@ -475,7 +475,7 @@ namespace RealismMod
             if (fc.FirearmsAnimator == __instance)
             {
                 float totalFixSpeed = Mathf.Clamp(fix * WeaponStats.TotalFixSpeed * PlayerState.ReloadInjuryMulti * Plugin.GlobalFixSpeedMulti.Value * (Mathf.Max(PlayerState.RemainingArmStamPercReload, 0.75f)), 0.65f, 1.15f);
-                WeaponAnimationSpeedControllerClass.SetSpeedFix(__instance.Animator, totalFixSpeed);
+                GClass669.SetSpeedFix(__instance.Animator, totalFixSpeed);
                 __instance.SetAnimationSpeed(totalFixSpeed);         
                 if (Plugin.EnableLogging.Value == true)
                 {

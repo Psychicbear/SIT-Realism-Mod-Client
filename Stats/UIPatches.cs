@@ -14,10 +14,10 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Collections.Concurrent;
 using System.Diagnostics;
-using StatAttributeClass = GClass2752;
-using BarrelTemplateClass = GClass2579;
-using ArmorPlateUIClass = GClass2633;
-using FormatArmorClass = GClass2520;
+using StatAttributeClass = MaxDurabilityAttribute;
+using BarrelTemplateClass = GGModTemplate3;
+using ArmorPlateUIClass = ArmorPlate;
+using FormatArmorClass = GClass2531;
 using Aki.Reflection.Utils;
 
 namespace RealismMod
@@ -27,7 +27,7 @@ namespace RealismMod
     {
         protected override MethodBase GetTargetMethod()
         {
-            return typeof(ArmorComponent.Class1934).GetMethod("method_3", BindingFlags.Instance | BindingFlags.Public);
+            return typeof(ArmorComponent.Class1944).GetMethod("method_3", BindingFlags.Instance | BindingFlags.Public);
         }
 
         private static string GetItemClass(CompositeArmorComponent x)
@@ -36,7 +36,7 @@ namespace RealismMod
         }
 
         [PatchPrefix]
-        private static bool PatchPrefix(ArmorComponent.Class1934 __instance, ref string __result)
+        private static bool PatchPrefix(ArmorComponent.Class1944 __instance, ref string __result)
         {
             CompositeArmorComponent[] array = __instance.item.GetItemComponentsInChildren<CompositeArmorComponent>(true).ToArray<CompositeArmorComponent>();
 

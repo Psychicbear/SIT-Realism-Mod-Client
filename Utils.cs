@@ -137,19 +137,19 @@ namespace RealismMod
 
         public static bool IsSight(Mod mod)
         {
-            return mod.GetType() == TemplateIdToObjectMappingsClass.TypeTable[Scope] || mod.GetType() == TemplateIdToObjectMappingsClass.TypeTable[AssaultScope] || mod.GetType() == TemplateIdToObjectMappingsClass.TypeTable[SpecialScope] || mod.GetType() == TemplateIdToObjectMappingsClass.TypeTable[CompactCollimator] || mod.GetType() == TemplateIdToObjectMappingsClass.TypeTable[Collimator] || mod.GetType() == TemplateIdToObjectMappingsClass.TypeTable[IronSight];
+            return mod.GetType() == GClass2752.TypeTable[Scope] || mod.GetType() == GClass2752.TypeTable[AssaultScope] || mod.GetType() == GClass2752.TypeTable[SpecialScope] || mod.GetType() == GClass2752.TypeTable[CompactCollimator] || mod.GetType() == GClass2752.TypeTable[Collimator] || mod.GetType() == GClass2752.TypeTable[IronSight];
         }
         public static bool IsMuzzleDevice(Mod mod)
         {
-            return mod.GetType() == TemplateIdToObjectMappingsClass.TypeTable[MuzzleCombo] || mod.GetType() == TemplateIdToObjectMappingsClass.TypeTable[Silencer] || mod.GetType() == TemplateIdToObjectMappingsClass.TypeTable[FlashHider];
+            return mod.GetType() == GClass2752.TypeTable[MuzzleCombo] || mod.GetType() == GClass2752.TypeTable[Silencer] || mod.GetType() == GClass2752.TypeTable[FlashHider];
         }
         public static bool IsStock(Mod mod)
         {
-            return mod.GetType() == TemplateIdToObjectMappingsClass.TypeTable[Stock];
+            return mod.GetType() == GClass2752.TypeTable[Stock];
         }
         public static bool IsSilencer(Mod mod)
         {
-            return mod.GetType() == TemplateIdToObjectMappingsClass.TypeTable[Silencer];
+            return mod.GetType() == GClass2752.TypeTable[Silencer];
         }
         public static bool IsMagazine(Mod mod)
         {
@@ -157,87 +157,87 @@ namespace RealismMod
         }
         public static bool IsFlashHider(Mod mod)
         {
-            return mod.GetType() == TemplateIdToObjectMappingsClass.TypeTable[FlashHider];
+            return mod.GetType() == GClass2752.TypeTable[FlashHider];
         }
         public static bool IsMuzzleCombo(Mod mod)
         {
-            return mod.GetType() == TemplateIdToObjectMappingsClass.TypeTable[MuzzleCombo];
+            return mod.GetType() == GClass2752.TypeTable[MuzzleCombo];
         }
         public static bool IsBarrel(Mod mod)
         {
-            return mod.GetType() == TemplateIdToObjectMappingsClass.TypeTable[Barrel];
+            return mod.GetType() == GClass2752.TypeTable[Barrel];
         }
         public static bool IsMount(Mod mod)
         {
-            return mod.GetType() == TemplateIdToObjectMappingsClass.TypeTable[Mount];
+            return mod.GetType() == GClass2752.TypeTable[Mount];
         }
         public static bool IsReceiver(Mod mod)
         {
-            return mod.GetType() == TemplateIdToObjectMappingsClass.TypeTable[Receiver];
+            return mod.GetType() == GClass2752.TypeTable[Receiver];
         }
         public static bool IsCharge(Mod mod)
         {
-            return mod.GetType() == TemplateIdToObjectMappingsClass.TypeTable[Charge];
+            return mod.GetType() == GClass2752.TypeTable[Charge];
         }
         public static bool IsCompactCollimator(Mod mod)
         {
-            return mod.GetType() == TemplateIdToObjectMappingsClass.TypeTable[CompactCollimator];
+            return mod.GetType() == GClass2752.TypeTable[CompactCollimator];
         }
         public static bool IsCollimator(Mod mod)
         {
-            return mod.GetType() == TemplateIdToObjectMappingsClass.TypeTable[Collimator];
+            return mod.GetType() == GClass2752.TypeTable[Collimator];
         }
         public static bool IsAssaultScope(Mod mod)
         {
-            return mod.GetType() == TemplateIdToObjectMappingsClass.TypeTable[AssaultScope];
+            return mod.GetType() == GClass2752.TypeTable[AssaultScope];
         }
         public static bool IsScope(Mod mod)
         {
-            return mod.GetType() == TemplateIdToObjectMappingsClass.TypeTable[Scope];
+            return mod.GetType() == GClass2752.TypeTable[Scope];
         }
         public static bool IsIronSight(Mod mod)
         {
-            return mod.GetType() == TemplateIdToObjectMappingsClass.TypeTable[IronSight];
+            return mod.GetType() == GClass2752.TypeTable[IronSight];
         }
         public static bool IsSpecialScope(Mod mod)
         {
-            return mod.GetType() == TemplateIdToObjectMappingsClass.TypeTable[SpecialScope];
+            return mod.GetType() == GClass2752.TypeTable[SpecialScope];
         }
         public static bool IsAuxiliaryMod(Mod mod)
         {
-            return mod.GetType() == TemplateIdToObjectMappingsClass.TypeTable[AuxiliaryMod];
+            return mod.GetType() == GClass2752.TypeTable[AuxiliaryMod];
         }
         public static bool IsForegrip(Mod mod)
         {
-            return mod.GetType() == TemplateIdToObjectMappingsClass.TypeTable[Foregrip];
+            return mod.GetType() == GClass2752.TypeTable[Foregrip];
         }
         public static bool IsPistolGrip(Mod mod)
         {
-            return mod.GetType() == TemplateIdToObjectMappingsClass.TypeTable[PistolGrip];
+            return mod.GetType() == GClass2752.TypeTable[PistolGrip];
         }
         public static bool IsGasblock(Mod mod)
         {
-            return mod.GetType() == TemplateIdToObjectMappingsClass.TypeTable[Gasblock];
+            return mod.GetType() == GClass2752.TypeTable[Gasblock];
         }
         public static bool IsHandguard(Mod mod)
         {
-            return mod.GetType() == TemplateIdToObjectMappingsClass.TypeTable[Handguard];
+            return mod.GetType() == GClass2752.TypeTable[Handguard];
         }
         public static bool IsBipod(Mod mod)
         {
-            return mod.GetType() == TemplateIdToObjectMappingsClass.TypeTable[Bipod];
+            return mod.GetType() == GClass2752.TypeTable[Bipod];
         }
         public static bool IsFlashlight(Mod mod)
         {
-            return mod.GetType() == TemplateIdToObjectMappingsClass.TypeTable[Flashlight];
+            return mod.GetType() == GClass2752.TypeTable[Flashlight];
         }
         public static bool IsTacticalCombo(Mod mod)
         {
-            return mod.GetType() == TemplateIdToObjectMappingsClass.TypeTable[TacticalCombo];
+            return mod.GetType() == GClass2752.TypeTable[TacticalCombo];
         }
         public static bool IsUBGL(Mod mod)
         {
-            return mod.GetType() == TemplateIdToObjectMappingsClass.TypeTable[UBGL];
+            return mod.GetType() == GClass2752.TypeTable[UBGL];
         }
     }
 }
