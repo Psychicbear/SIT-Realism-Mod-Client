@@ -13,9 +13,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using static EFT.Player;
 using System.Linq;
-using WeaponSkills = EFT.SkillManager.BuffInfo;
+using WeaponSkills = EFT.SkillManager.GClass1771;
 using EFT.Visual;
 using static EFT.SkillManager;
+using RealismMod.Weapons;
 
 namespace RealismMod
 {
@@ -85,7 +86,7 @@ namespace RealismMod
             Player player = (Player)playerField.GetValue(__instance);
             if (player.IsYourPlayer == true)
             {
-                WeaponSkills skillsClass = (WeaponSkills)AccessTools.Field(typeof(EFT.Player.FirearmController), "gclass1781_0").GetValue(__instance);
+                WeaponSkills skillsClass = (WeaponSkills)AccessTools.Field(typeof(EFT.Player.FirearmController), "gclass1771_0").GetValue(__instance);
                 __result = Mathf.Max(0f, __instance.Item.ErgonomicsTotal * (1f + skillsClass.DeltaErgonomics + player.ErgonomicsPenalty));
                 return false;
             }
@@ -226,7 +227,7 @@ namespace RealismMod
 
             if (hasMag == true)
             {
-                StatCalc.MagReloadSpeedModifier(__instance, (MagazineClass)magazine, false, false);
+                ReloadController.MagReloadSpeedModifier(__instance, (MagazineClass)magazine, false, false);
             }
 
             if (Plugin.EnableLogging.Value == true)

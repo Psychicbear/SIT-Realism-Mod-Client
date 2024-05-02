@@ -12,12 +12,12 @@ using static RealismMod.Attributes;
 using UnityEngine;
 using UnityEngine.UI;
 using BPConstructor = GClass2684;
-using BPTemplate = GClass2598;
-using RigConstructor = ArmorClass1;
-using RigTemplate = GClass2599; 
-using HeadsetClass = GClass2650;
-using HeadsetTemplate = LowMute;
-using ArmorCompTemplate = IEffect41;
+using BPTemplate = GClass2587;
+using RigConstructor = GClass2685;
+using RigTemplate = GClass2588; 
+using HeadsetClass = GClass2639;
+using HeadsetTemplate = GClass2542;
+using ArmorCompTemplate = GInterface280;
 using HarmonyLib;
 
 
@@ -27,7 +27,7 @@ namespace RealismMod
     {
         protected override MethodBase GetTargetMethod()
         {
-            return typeof(EquipmentPenaltyComponent).GetConstructor(new Type[] { typeof(Item), typeof(GInterface286), typeof(bool) });
+            return typeof(EquipmentPenaltyComponent).GetConstructor(new Type[] { typeof(Item), typeof(GInterface282), typeof(bool) });
         }
 
         private static float getAverage(Func<CompositeArmorComponent, float> predicate, Item item)
@@ -53,7 +53,7 @@ namespace RealismMod
         [PatchPostfix]
         private static void PatchPostfix(EquipmentPenaltyComponent __instance, Item item, bool anyArmorPlateSlots)
         {
-            if (Plugin.ServerConfig.gear_weight)
+            if (Plugin.ServerConfig.gear_weight && anyArmorPlateSlots)
             {
                 float comfortModifier = GearStats.ComfortModifier(item);
                 if (comfortModifier > 0f && comfortModifier != 1f)

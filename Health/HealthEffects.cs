@@ -7,10 +7,10 @@ using static Systems.Effects.Effects;
 using UnityEngine;
 using System.Linq;
 using BepInEx.Logging;
-using EffectClass = EFT.HealthSystem.ActiveHealthController.AbstractEffect;
-using ExistanceClass = GClass2431;
+using EffectClass = EFT.HealthSystem.ActiveHealthController.GClass2415;
+using ExistanceClass = GClass2456;
 using InterfaceOne = GInterface237;
-using InterfaceTwo = IEffect14;
+using InterfaceTwo = GInterface252;
 using EFT.InventoryLogic;
 
 namespace RealismMod
@@ -48,6 +48,7 @@ namespace RealismMod
         public int Delay { get; set; }
         public EHealthEffectType EffectType { get; }
         private bool haveNotified = false;
+        private bool haveRemovedSurgery = false;
 
         public TourniquetEffect(float hpTick, int? dur, EBodyPart part, Player player, int delay)
         {
@@ -70,6 +71,12 @@ namespace RealismMod
                 {
                     NotificationManagerClass.DisplayWarningNotification("Tourniquet Applied On " + BodyPart + ", You Are Losing Health On This Limb. Use A Surgery Kit To Remove It.", EFT.Communications.ENotificationDurationType.Long);
                     haveNotified = true;
+                }
+
+                if (!haveRemovedSurgery)
+                {
+                    haveRemovedSurgery = true;
+                    Plugin.RealHealthController.RemoveCustomEffectOfType(typeof(SurgeryEffect), BodyPart);
                 }
 
                 float currentPartHP = _Player.ActiveHealthController.GetBodyPartHealth(BodyPart).Current;
@@ -127,10 +134,10 @@ namespace RealismMod
                     haveNotified = true;
                 }
 
-                if (!hasRemovedTrnqt && RealismMod.Plugin.RealHealthController.HasCustomEffectOfType(typeof(TourniquetEffect), BodyPart))
+                if (!hasRemovedTrnqt)
                 {
-                    Plugin.RealHealthController.RemoveCustomEffectOfType(typeof(TourniquetEffect), BodyPart);
                     hasRemovedTrnqt = true;
+                    Plugin.RealHealthController.RemoveCustomEffectOfType(typeof(TourniquetEffect), BodyPart);
                     NotificationManagerClass.DisplayMessageNotification("Surgical Kit Used, Removing Tourniquet Effect Present On Limb: " + BodyPart, EFT.Communications.ENotificationDurationType.Long);
                 }
 

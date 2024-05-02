@@ -11,17 +11,18 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
-using WeaponSkills = EFT.SkillManager.BuffInfo;
-using WeightClass = GClass760<float>;
+using WeaponSkills = EFT.SkillManager.GClass1771;
+using WeightClass = GClass754<float>;
 using Comfort.Common;
-using InputClass = GHandsInputTranslator1;
+using InputClass = Class1451;
 using static EFT.Player;
-using StatusStruct = SOperationResult12<IPopNewAmmoResult>;
-using ItemEventClass = SlotItemAddress;
-using WeaponStateClass = WeaponEffectsManager;
+using StatusStruct = GStruct414<GInterface324>;
+using ItemEventClass = GClass2767;
+using WeaponStateClass = GClass1668;
 using EFT.InputSystem;
 using EFT.Animations.NewRecoil;
 using EFT.UI;
+using RealismMod.Weapons;
 
 namespace RealismMod
 {
@@ -40,8 +41,8 @@ namespace RealismMod
             fc.FirearmsAnimator.SetAmmoInChamber(0);
             fc.FirearmsAnimator.SetAmmoOnMag(currentMagazineCount);
             fc.FirearmsAnimator.SetAmmoCompatible(true);
-            StatusStruct gstruct = mag.Cartridges.PopTo(player.GClass2772_0, new ItemEventClass(fc.Item.Chambers[0]));
-            WeaponStateClass weaponStateClass = (WeaponStateClass)AccessTools.Field(typeof(FirearmController), "gclass1678_0").GetValue(fc);
+            StatusStruct gstruct = mag.Cartridges.PopTo(player.GClass2761_0, new ItemEventClass(fc.Item.Chambers[0]));
+            WeaponStateClass weaponStateClass = (WeaponStateClass)AccessTools.Field(typeof(FirearmController), "gclass1668_0").GetValue(fc);
             weaponStateClass.RemoveAllShells();
             BulletClass bullet = (BulletClass)gstruct.Value.ResultItem;
             fc.FirearmsAnimator.SetAmmoInChamber(1);
@@ -56,6 +57,10 @@ namespace RealismMod
         [PatchPrefix]
         private static bool PatchPrefix(InputClass __instance, ECommand command)
         {
+            if (command == ECommand.ToggleStepLeft || command == ECommand.ToggleStepRight || command == ECommand.ReturnFromRightStep || command == ECommand.ReturnFromLeftStep) 
+            {
+                StanceController.IsMounting = false;
+            }
             if (command == ECommand.ChamberUnload && Plugin.ServerConfig.manual_chambering)
             {
                 Player player = Utils.GetYourPlayer();
@@ -319,7 +324,7 @@ namespace RealismMod
             }
         }
 
-        private static void CalcBaseHipfireAccuracy(Player player)
+        private static void calcBaseHipfireAccuracy(Player player)
         {
             float baseValue = 0.4f;
             float convergenceFactor = 1f - (RecoilController.BaseTotalConvergence / 100f);
@@ -390,6 +395,11 @@ namespace RealismMod
                     chamberTimer(fc);
                 }
 
+                if (Plugin.ServerConfig.enable_stances)
+                {
+                    StanceController.DoMounting(player, player.ProceduralWeaponAnimation, fc);
+                }
+
                 if (RecoilController.IsFiring)
                 {
                     RecoilController.SetRecoilParams(player.ProceduralWeaponAnimation, fc.Item);
@@ -419,8 +429,12 @@ namespace RealismMod
             {
                 StanceController.UnarmedStanceStamina(player);
             }
+            else 
+            {
+                StanceController.IsMounting = false;
+            }
 
-            CalcBaseHipfireAccuracy(player);
+            calcBaseHipfireAccuracy(player);
             float stanceHipFactor = StanceController.CurrentStance == EStance.ActiveAiming ? 0.7f : StanceController.CurrentStance == EStance.ShortStock ? 1.35f : 1.05f;
             player.ProceduralWeaponAnimation.Breath.HipPenalty = Mathf.Clamp(WeaponStats.BaseHipfireInaccuracy * PlayerState.SprintHipfirePenalty * stanceHipFactor, 0.2f, 1.6f);
         }
@@ -449,12 +463,12 @@ namespace RealismMod
                 PlayerState.IsSprinting = __instance.IsSprintEnabled;
                 PlayerState.EnviroType = __instance.Environment;
                 StanceController.IsInInventory = __instance.IsInventoryOpened;
-                PlayerState.IsMoving = Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D);
+                PlayerState.IsMoving = __instance.IsSprintEnabled || __instance.MovementContext.AbsoluteMovementDirection.x  > 0 || __instance.MovementContext.AbsoluteMovementDirection.y > 0;
 
                 if (Plugin.EnableSprintPenalty.Value && Plugin.ServerConfig.enable_stances)
                 {
                     DoSprintPenalty(__instance, fc, StanceController.BracingSwayBonus);
-                    if (PlayerState.HasFullyResetSprintADSPenalties) //!RecoilController.IsFiring && 
+                    if (PlayerState.HasFullyResetSprintADSPenalties)
                     {
                         __instance.ProceduralWeaponAnimation.Breath.Intensity = PlayerState.TotalBreathIntensity * StanceController.BracingSwayBonus;
                         __instance.ProceduralWeaponAnimation.HandsContainer.HandsRotation.InputIntensity = PlayerState.TotalHandsIntensity * StanceController.BracingSwayBonus;

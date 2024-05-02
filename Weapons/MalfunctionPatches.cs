@@ -10,10 +10,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
-using MalfGlobals = BackendConfigSettingsClass.MalfSettings;
-using OverheatGlobals = BackendConfigSettingsClass.OverheatSettings;
-using KnowMalfClass = EFT.InventoryLogic.Weapon.WeaponMalfState;
-using DamageTypeClass = GClass2431;
+using MalfGlobals = BackendConfigSettingsClass.GClass1370;
+using OverheatGlobals = BackendConfigSettingsClass.GClass1371;
+using KnowMalfClass = EFT.InventoryLogic.Weapon.GClass2742;
+using DamageTypeClass = GClass2456;
 using Systems.Effects;
 
 namespace RealismMod
@@ -71,7 +71,7 @@ namespace RealismMod
 
                 if (player.IsYourPlayer)
                 {
-                    if (__instance.Weapon.Repairable.MaxDurability <= 0f || malfMismatch)
+                    if (__instance.Weapon.Repairable.MaxDurability <= 0f || malfMismatch || (explosiveMismatch && !Plugin.ServerConfig.malf_changes))
                     {
                         NotificationManagerClass.DisplayWarningNotification("Possible Wrong Ammo/Weapon Caliber Combination.", EFT.Communications.ENotificationDurationType.Long);
                         __result = Weapon.EMalfunctionState.Misfire;
@@ -86,7 +86,7 @@ namespace RealismMod
                 }
                 else
                 {
-                    if (__instance.Weapon.Repairable.MaxDurability <= 0f || malfMismatch)
+                    if (__instance.Weapon.Repairable.MaxDurability <= 0f || malfMismatch || (explosiveMismatch && !Plugin.ServerConfig.malf_changes))
                     {
                         __result = Weapon.EMalfunctionState.Misfire;
                         return;
