@@ -28,7 +28,7 @@ using ExistanceClass = GClass2431;
 using StamController = GPhysical;
 using PhysicalClass = Physical;
 using HealthStateClass = AHealthController<EFT.HealthSystem.ActiveHealthController.AbstractEffect>;
-using MedkitTemplate = GInterface298;
+using MedkitTemplate = GInterface302;
 using static EFT.HealthSystem.ActiveHealthController;
 using static AbstractHealth;
 using Aki.Common.Http;
@@ -40,7 +40,7 @@ namespace RealismMod
     {
         protected override MethodBase GetTargetMethod()
         {
-            return typeof(HealthEffectsComponent).GetConstructor(new Type[] { typeof(Item), typeof(GInterface292) });
+            return typeof(HealthEffectsComponent).GetConstructor(new Type[] { typeof(Item), typeof(GInterface296) });
         }
 
         [PatchPostfix]

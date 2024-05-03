@@ -14,7 +14,7 @@ using UnityEngine.UI;
 using BPConstructor = GClass2684;
 using BPTemplate = GClass2598;
 using RigConstructor = ArmorClass1;
-using RigTemplate = GClass2599; 
+using RigTemplate = GClass2599;
 using HeadsetClass = GClass2650;
 using HeadsetTemplate = LowMute;
 using ArmorCompTemplate = IEffect41;
@@ -27,7 +27,7 @@ namespace RealismMod
     {
         protected override MethodBase GetTargetMethod()
         {
-            return typeof(EquipmentPenaltyComponent).GetConstructor(new Type[] { typeof(Item), typeof(GInterface286), typeof(bool) });
+            return typeof(EquipmentPenaltyComponent).GetConstructor(new Type[] { typeof(Item), typeof(GInterface288), typeof(bool) });
         }
 
         private static float getAverage(Func<CompositeArmorComponent, float> predicate, Item item)

@@ -9,7 +9,7 @@ using System.Linq;
 using BepInEx.Logging;
 using EffectClass = EFT.HealthSystem.ActiveHealthController.AbstractEffect;
 using ExistanceClass = GClass2431;
-using InterfaceOne = GInterface237;
+using InterfaceOne = GInterface236;
 using InterfaceTwo = IEffect14;
 using EFT.InventoryLogic;
 
